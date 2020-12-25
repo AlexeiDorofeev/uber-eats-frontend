@@ -7,6 +7,8 @@ import {
   loginMutationVariables,
 } from "../__generated__/loginMutation";
 import uberLogo from "../images/1.svg";
+import { Button } from "../components/button";
+import { Link } from "react-router-dom";
 
 const LOGIN_MUTATION = gql`
   mutation loginMutation($loginInput: Logininput!) {
@@ -30,7 +32,9 @@ export const Login = () => {
     errors,
     handleSubmit,
     formState,
-  } = useForm<ILoginForm>();
+  } = useForm<ILoginForm>({
+    mode: "onChange",
+  });
 
   const onCompleted = (data: loginMutation) => {
     const {
@@ -64,7 +68,7 @@ export const Login = () => {
         </h4>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="grid gap-3 mt-5 w-full"
+          className="grid gap-3 mt-5 w-full mb-5"
         >
           <input
             ref={register({ required: "Email is required" })}
@@ -91,13 +95,21 @@ export const Login = () => {
           {errors.password?.type === "minLength" && (
             <FormError errorMessage=" Password must be more than 10 charachters" />
           )}
-          <button className={`btn ${!formState.isValid ? "bg-gray-300" : ""}`}>
-            {loading ? "Loading..." : "Login"}
-          </button>
+          <Button
+            canClick={formState.isValid}
+            loading={loading}
+            actionText={"Login"}
+          />
           {loginMutationResult?.login.error && (
             <FormError errorMessage={loginMutationResult.login.error} />
           )}
         </form>
+        <div>
+          New to Uber?{" "}
+          <Link className="text-lime-600 hover:underline" to="/create-account">
+            Create an Account
+          </Link>
+        </div>
       </div>
     </div>
   );

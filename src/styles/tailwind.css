@@ -5,7 +5,4 @@
   @apply focus:outline-none focus:border-gray-500 p-3 border-2 text-lg font-light border-gray-200 transition-colors;
 }
 
-.btn {
-  @apply mt-3 text-lg font-medium text-white bg-lime-600 py-4 hover:bg-lime-700 transition-colors;
-}
 @tailwind utilities;
