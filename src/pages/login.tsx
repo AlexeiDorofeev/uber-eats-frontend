@@ -1,14 +1,15 @@
-import { ApolloError, gql, useMutation } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import React from "react";
+import Helmet from "react-helmet";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+import { Button } from "../components/button";
 import { FormError } from "../components/form-error";
+import uberLogo from "../images/1.svg";
 import {
   loginMutation,
   loginMutationVariables,
 } from "../__generated__/loginMutation";
-import uberLogo from "../images/1.svg";
-import { Button } from "../components/button";
-import { Link } from "react-router-dom";
 
 const LOGIN_MUTATION = gql`
   mutation loginMutation($loginInput: Logininput!) {
@@ -61,9 +62,12 @@ export const Login = () => {
   };
   return (
     <div className="h-screen flex items-center flex-col mt-10 lg:mt-28">
+      <Helmet>
+        <title>Login | Uber Eats</title>
+      </Helmet>
       <div className="w-full max-w-screen-sm flex flex-col px-5 items-center">
-        <img src={uberLogo} className="w-52 mb-5" />
-        <h4 className="w-full font-medium text-left text-3xl mb-10">
+        <img src={uberLogo} className="w-52 mb-5" alt="Uber Eats Logo" />
+        <h4 className="w-full font-medium text-left text-2xl mb-5">
           Welcome back
         </h4>
         <form
