@@ -2,10 +2,10 @@
 @tailwind components;
 
 .input {
-  @apply bg-gray-100 shadow-inner focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-90 mb-3 py-3 px-5 rounded-lg;
+  @apply focus:outline-none focus:border-gray-500 p-3 border-2 text-lg font-light border-gray-200 transition-colors;
 }
 
 .btn {
-  @apply py-3 px-5 bg-gray-800 text-white text-lg rounded-lg focus:outline-none hover:opacity-90;
+  @apply mt-3 text-lg font-medium text-white bg-lime-600 py-4 hover:bg-lime-700 transition-colors;
 }
 @tailwind utilities;
