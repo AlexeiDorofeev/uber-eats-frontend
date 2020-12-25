@@ -46,7 +46,7 @@ export const CreateAccount = () => {
       createAccount: { ok, error },
     } = data;
     if (ok) {
-      history.push("/login");
+      history.push("/");
     }
   };
   const [
@@ -133,7 +133,7 @@ export const CreateAccount = () => {
         </form>
         <div>
           Already have an account?{" "}
-          <Link className="text-lime-600 hover:underline" to="/login">
+          <Link className="text-lime-600 hover:underline" to="/">
             Login now
           </Link>
         </div>
