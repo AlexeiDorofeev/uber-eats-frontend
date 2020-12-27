@@ -1,5 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import { Restaurant } from "../../components/restaurant";
 import {
   restaurantsPageQuery,
@@ -39,6 +41,10 @@ const RESTAURANTS_QUERY = gql`
   }
 `;
 
+interface IFormProps {
+  searchTerm: string;
+}
+
 export const Restaurants = () => {
   const [page, setPage] = useState(1);
   const { data, loading } = useQuery<
@@ -53,34 +59,52 @@ export const Restaurants = () => {
   });
   const onNextPageClick = () => setPage((current) => current + 1);
   const onPrevPageClick = () => setPage((current) => current - 1);
+  const { register, handleSubmit, getValues } = useForm<IFormProps>();
+  const history = useHistory();
+  const onSearchSubmit = () => {
+    const { searchTerm } = getValues();
+    history.push({
+      pathname: "/search",
+      search: `term=${searchTerm}`,
+    });
+  };
   return (
     <div>
-      <form className="bg-gray-800 w-full py-40 flex items-center justify-center">
+      <form
+        onSubmit={handleSubmit(onSearchSubmit)}
+        className="bg-gray-800 w-full py-40 flex items-center justify-center"
+      >
         <input
+          ref={register({ required: true, min: 3 })}
+          name="searchTerm"
           type="Search"
           placeholder="Search Restaurant"
-          className="input w-3/12 rounded-md border-0"
+          className="input w-3/4 rounded-md border-0 md:w-3/12"
         />
       </form>
       {!loading && (
         <div className="max-w-screen-2xl mx-auto mt-8 pb-20">
           <div className="flex justify-around max-w-md mx-auto">
-            {data?.allCategories.categories?.map((category) => (
-              <div className="flex flex-col group items-center cursor-pointer">
+            {data?.allCategories.categories?.map(({ id, coverImg, name }) => (
+              <div
+                key={id}
+                className="flex flex-col group items-center cursor-pointer"
+              >
                 <div
                   className="w-16 h-16 bg-cover  border-gray-600 group-hover:opacity-80"
-                  style={{ backgroundImage: `url(${category.coverImg})` }}
+                  style={{ backgroundImage: `url(${coverImg})` }}
                 ></div>
                 <span className="text-sm text-center font-medium mt-1">
-                  {category.name}
+                  {name}
                 </span>
               </div>
             ))}
           </div>
-          <div className="mt-16 grid grid-cols-3 gap-x-5 gap-y-10">
+          <div className="mt-16 grid md:grid-cols-3 gap-x-5 gap-y-10">
             {data?.restaurants.results?.map(
               ({ coverImg, name, category, id }) => (
                 <Restaurant
+                  key={id}
                   id={id + ""}
                   coverImg={coverImg}
                   name={name}
