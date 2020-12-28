@@ -117,9 +117,6 @@ export const CreateAccount = () => {
               <option key={index}>{role}</option>
             ))}
           </select>
-          {errors.password?.type === "minLength" && (
-            <FormError errorMessage=" Password must be more than 10 charachters" />
-          )}
           <Button
             canClick={formState.isValid}
             loading={loading}
