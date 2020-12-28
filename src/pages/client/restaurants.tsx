@@ -2,9 +2,9 @@ import { gql, useQuery } from "@apollo/client";
 import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Restaurant } from "../../components/restaurant";
-import { RESTAURANT_FRAGMENT } from "../../fragments";
+import { CATEGORY_FRAGMENT, RESTAURANT_FRAGMENT } from "../../fragments";
 import {
   restaurantsPageQuery,
   restaurantsPageQueryVariables,
@@ -16,11 +16,7 @@ const RESTAURANTS_QUERY = gql`
       ok
       error
       categories {
-        id
-        name
-        coverImg
-        slug
-        restaurantCount
+        ...CategoryParts
       }
     }
     restaurants(input: $input) {
@@ -34,6 +30,7 @@ const RESTAURANTS_QUERY = gql`
     }
   }
   ${RESTAURANT_FRAGMENT}
+  ${CATEGORY_FRAGMENT}
 `;
 
 interface IFormProps {
@@ -83,20 +80,24 @@ export const Restaurants = () => {
       {!loading && (
         <div className="max-w-screen-2xl mx-auto mt-8 pb-20">
           <div className="flex justify-around max-w-md mx-auto">
-            {data?.allCategories.categories?.map(({ id, coverImg, name }) => (
-              <div
-                key={id}
-                className="flex flex-col group items-center cursor-pointer"
-              >
-                <div
-                  className="w-16 h-16 bg-cover  border-gray-600 group-hover:opacity-80"
-                  style={{ backgroundImage: `url(${coverImg})` }}
-                ></div>
-                <span className="text-sm text-center font-medium mt-1">
-                  {name}
-                </span>
-              </div>
-            ))}
+            {data?.allCategories.categories?.map(
+              ({ id, coverImg, name, slug }) => (
+                <Link to={`/category/${slug}`}>
+                  <div
+                    key={id}
+                    className="flex flex-col group items-center cursor-pointer"
+                  >
+                    <div
+                      className="w-16 h-16 bg-cover  border-gray-600 group-hover:opacity-80"
+                      style={{ backgroundImage: `url(${coverImg})` }}
+                    ></div>
+                    <span className="text-sm text-center font-medium mt-1">
+                      {name}
+                    </span>
+                  </div>
+                </Link>
+              )
+            )}
           </div>
           <div className="mt-16 grid md:grid-cols-3 gap-x-5 gap-y-10">
             {data?.restaurants.results?.map(
