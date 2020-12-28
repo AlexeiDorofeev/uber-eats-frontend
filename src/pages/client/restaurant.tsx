@@ -36,7 +36,6 @@ export const Restaurant = () => {
       },
     }
   );
-  console.log(data);
   return (
     <div>
       <div
