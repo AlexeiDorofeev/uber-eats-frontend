@@ -13,7 +13,7 @@ import {
   loginMutationVariables,
 } from "../__generated__/loginMutation";
 
-const LOGIN_MUTATION = gql`
+export const LOGIN_MUTATION = gql`
   mutation loginMutation($loginInput: Logininput!) {
     login(input: $loginInput) {
       ok
@@ -105,9 +105,6 @@ export const Login = () => {
           />
           {errors.password?.message && (
             <FormError errorMessage={errors.password.message} />
-          )}
-          {errors.password?.type === "minLength" && (
-            <FormError errorMessage=" Password must be more than 10 charachters" />
           )}
           <Button
             canClick={formState.isValid}
