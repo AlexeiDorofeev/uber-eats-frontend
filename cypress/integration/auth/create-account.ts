@@ -34,10 +34,7 @@ describe("Create Account", () => {
     cy.findByPlaceholderText(/password/i).type("12345");
     cy.findByRole("button").click();
     cy.wait(1000);
-    cy.title().should("eq", "Login | Uber Eats");
-    cy.findByPlaceholderText(/email/i).type("doro@yahoo.com");
-    cy.findByPlaceholderText(/password/i).type("12345");
-    cy.findByRole("button").click();
-    cy.window().its("localStorage.token").should("be.a", "string");
+    // @ts-ignore
+    cy.login("doro@yahoo.com", "12345");
   });
 });
